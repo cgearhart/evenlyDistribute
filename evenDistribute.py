@@ -11,15 +11,11 @@ width = 15
 
 def evenDistribute(inputStr, width):
     num_partitions = inputStr.count(' ') # 3
-    total_spaces = width - sum(len(item) for item in inputStr.split(' '))  # 15 - 7 = 8
-    min_spaces_between = total_spaces/num_partitions
-    total_spaces -= min_spaces_between*num_partitions
-    spaces_between = [min_spaces_between]*num_partitions  # [2, 2, 2]
-    print spaces_between
-    outputStr = replace(inputStr, ' ', '%s')
-    spaces_between = [' '*(s+1) if idx < total_spaces else ' '*s for idx, s in enumerate(spaces_between)]
-    print spaces_between
-    return outputStr % tuple(spaces_between)
-
-
-print evenDistribute(iStr, width)
+    total_spaces = width - (len(iStr) - num_partitions)  # 15 - 7 = 8
+    min_num_spaces = total_spaces/num_partitions
+    remaining_spaces = total_spaces - min_num_spaces*num_partitions
+    spaces_between = [min_num_spaces]*num_partitions
+    for idx, s in enumerate(spaces_between):
+        s = s+1 if idx < remaining_spaces else s
+        spaces_between[idx] = ' '*s
+    return replace(inputStr, ' ', '%s') % tuple(spaces_between)
